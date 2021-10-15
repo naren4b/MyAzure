@@ -40,17 +40,18 @@ do
 # For directories
   if [ -d "${lPath}" ]; then
       ls "${lPath}" 2>/dev/null | while read -r fileName ; do
-        echo curl -X PUT -T ${lPath}/${fileName} -H "x-ms-date: $(date -u)" -H "x-ms-blob-type: BlockBlob" "https://{storageaccount}.blob.core.windows.net/backups/${uPath}/${fileName}?{sas_token}"
+      curl -X PUT -T ${lPath}/${fileName} -H "x-ms-date: $(date -u)" -H "x-ms-blob-type: BlockBlob" "https://{storageaccount}.blob.core.windows.net/backups/${uPath}/${fileName}?{sas_token}"
       done
   fi
 
 echo
-# For files
+# For direct files
   if [ -f "${lPath}" ]; then
     _fbn=$(basename $lPath)
-    echo curl -X PUT -T ${lPath} -H "x-ms-date: $(date -u)" -H "x-ms-blob-type: BlockBlob" "https://{storageaccount}.blob.core.windows.net/backups/${uPath}/${_fbn}?{sas_token}"
+    curl -X PUT -T ${lPath} -H "x-ms-date: $(date -u)" -H "x-ms-blob-type: BlockBlob" "https://{storageaccount}.blob.core.windows.net/backups/${uPath}/${_fbn}?{sas_token}"
   fi
-
 echo
 
 done < files.txt
+
+echo done 
